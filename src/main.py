@@ -1,0 +1,90 @@
+# Assuming you have Board.py and Keyboard.py files
+import Board
+import Keyboard
+import Word
+
+from flet import (Column, KeyboardEvent, SnackBarBehavior,CrossAxisAlignment, OutlinedBorder, RoundedRectangleBorder, SnackBar, Text, Colors, Page, Divider, FontWeight)
+import flet as ft
+
+class Wordle(Column):
+    def __init__(self):
+        super().__init__(spacing=0)
+        self.horizontal_alignment = CrossAxisAlignment.CENTER
+        self.board = Board.Board()
+        self.keyboard = Keyboard.Keyboard()
+        self.worlde = Word.Word().getRandomizeWord()
+
+        self.controls = [
+            self.board,
+            Divider(height=130, color="transparent"), # Use transparent divider for spacing
+            self.keyboard,
+        ]
+
+        self.snack_bar = SnackBar(
+            content=Text(
+                
+                weight=FontWeight.W_900,
+                size=20
+            ),
+            shape=RoundedRectangleBorder(5),
+            bgcolor=Colors.RED_400,
+            show_close_icon=True,
+            duration=2000,
+            behavior=SnackBarBehavior.FIXED
+        )
+
+    def did_mount(self):
+        if not isinstance(self.page, Page):
+            return None
+        self.page.overlay.append(self.snack_bar)
+        self.page.on_keyboard_event = self.on_keyboard_event
+        self.page.update()
+        
+    # showAlert now just opens the existing snackbar
+    def show_alert(self, error: str):
+        self.snack_bar.open = True
+        self.snack_bar.content.value = error
+        self.page.update()
+
+    async def on_keyboard_event(self, e: KeyboardEvent):
+        key = e.key.upper()
+        print(f"Key pressed: {key}") # Helpful for debugging
+
+        if key.isalpha() and len(key) == 1:
+            await self.board.add(key)
+            self.board.update()
+        elif key == "BACKSPACE":
+            self.board.pop()
+            self.board.update()
+        elif key == "ENTER":
+            if self.board.isFull():
+                GuessWord = self.board.getGuessWord()
+                if not Word.Word().isAWord(GuessWord):
+                    self.show_alert("You must enter English word!")
+                    return
+                listValidateColor = self.board.getValidateColor(self.worlde)
+                self.board.setAnswerState(listValidateColor)
+                self.keyboard.setAnswerState(listValidateColor)
+            else:
+                # If the row is not full, show the alert
+                self.show_alert("You must enter 5-letter word!")
+
+def main(page: Page):
+    page.title = "Flet Wordle"
+    page.fonts= {
+        "Franklin": "https/github.com/google/fonts/raw/main/apache/franklingothic/FranklinGothic-Medium.ttf"
+    }
+    page.theme = ft.Theme(font_family="Franklin")
+    page.bgcolor ="#121213"
+    page.window.min_width= 800
+    page.window.min_height = 1000
+    page.window.resizable = True
+    page.window.center()
+
+    app = Wordle()
+
+    page.add(app)
+    page.update()
+
+if __name__ == "__main__":
+    ft.app(target=main)
