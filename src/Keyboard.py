@@ -1,12 +1,10 @@
 from flet import (Container, Column, Button, Control, Offset,Row, Card, Duration,AnimationCurve, Text, Colors, Page, Animation, alignment, border, padding)
 import flet as ft
 from typing import cast
-CORRECT_COLOR = "#6AAA64"  # Green
-PRESENT_COLOR = "#C9B458"  # Yellow
-ABSENT_COLOR = "#787C7E"   # Dark Gray
-DEFAULT_COLOR = "#D3D6DA"  # Light Gray (for light theme)
+CORRECT_COLOR = "#6AAA64" 
+PRESENT_COLOR = "#C9B458"  
+DEFAULT_COLOR = "#787C7E"  
 
-# Global dictionary to map character to its Flet control instance
 KEY_CONTROLS = {}
 
 class Keyboard(Container):
@@ -16,24 +14,21 @@ class Keyboard(Container):
         self.key_states = {} 
         self.key_press_handler = key_press_handler
 
-        # Key layout definition
         self.keyboard_layout = [
             ["Q","W","E","R","T","Y","U","I","O","P"],
             ["A","S","D","F","G","H","J","K","L"], 
             ["ENTER","Z","X","C","V","B","N","M","DEL"]
         ]
-
-        # Function to create a single key Container
+        
         def create_key_button(text, key_width=52):
-            # Define width based on key type
-            if len(text) > 1: # 'ENTER' or 'DEL'
+            if len(text) > 1: 
                 key_width = 75 
             
             button = Container(
-                data=text if text!= "DEL" else "BACKSPACE",
+                data=text,
                 width=key_width,
                 height=58,
-                bgcolor=ABSENT_COLOR, # Initial color
+                bgcolor=DEFAULT_COLOR, # Initial color
                 border_radius=ft.border_radius.all(4),
                 alignment=alignment.center,
                 on_click=self._handle_key_click,
@@ -70,11 +65,10 @@ class Keyboard(Container):
             )
         )
 
-        # Set the content of the main Keyboard container
         self.content = Column(
             controls=row_controls,
             horizontal_alignment=ft.CrossAxisAlignment.CENTER,
-            spacing=6, # Spacing between keyboard rows
+            spacing=6,
         )
 
     async def _handle_key_click(self, e):
@@ -83,7 +77,14 @@ class Keyboard(Container):
     def setAnswerState(self,lst):
         for (boxColor, char) in lst:
             t = cast(Button,KEY_CONTROLS.get(char.lower()))
+            if t.bgcolor == CORRECT_COLOR :continue
             t.bgcolor = boxColor
             t.update()
+    def reset(self):
+        for i in range(0,3):
+            for char in self.keyboard_layout[i]:
+                t = cast(Container, KEY_CONTROLS.get(char.lower()))
+                t.bgcolor = DEFAULT_COLOR
+                t.update()
 
 

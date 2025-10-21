@@ -58,11 +58,9 @@ class Board(Container):
                 BOARD_DICT[(i, j)] = stack.controls[0] 
             col.controls.append(row_control)
         self.alignment = alignment.center    
-        self.width = 500
-        self.height = 600
+        self.width = 550
         self.content = col
     async def add(self, data: str):
-        print(self.curX, self.curY)
         if self.curY >= 4:
             return None # Row is full, ignore the input
         self.curY+=1
@@ -130,7 +128,6 @@ class Board(Container):
        (guess_tile,_) = self.getCurrentLine()
        for cnt, t in enumerate(guess_tile):
             (boxColor,_) = lst[cnt]
-            print(boxColor)
             t.border = border.all(0.1, boxColor)
             t.bgcolor = boxColor
             t.update()
@@ -168,6 +165,21 @@ class Board(Container):
         for cnt,t in enumerate(guess_tile_data):
             res.append((colors[cnt],t))
         return res
+    def reset(self):
+        for i in range(0,6):
+             for j in range(0,5):
+                    t = cast(Container,BOARD_DICT.get((i,j)))
+                    if not isinstance(t.content,Text):
+                        return ([],[])
+                    t.content.visible = False
+                    t.bgcolor = Colors.TRANSPARENT
+                    t.border =border.all(3,BORDER_COLOR)
+                    t.update()
+
+        self.curX = 0
+        self.curY = -1
+            
+
 
         
 
