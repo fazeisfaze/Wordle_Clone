@@ -30,7 +30,7 @@ class Keyboard(Container):
                 key_width = 75 
             
             button = Container(
-                data=text,
+                data=text if text!= "DEL" else "BACKSPACE",
                 width=key_width,
                 height=58,
                 bgcolor=ABSENT_COLOR, # Initial color
@@ -77,9 +77,9 @@ class Keyboard(Container):
             spacing=6, # Spacing between keyboard rows
         )
 
-    def _handle_key_click(self, e):
+    async def _handle_key_click(self, e):
             if self.key_press_handler:
-                self.key_press_handler(e.control.data)
+                await self.key_press_handler(e)
     def setAnswerState(self,lst):
         for (boxColor, char) in lst:
             t = cast(Button,KEY_CONTROLS.get(char.lower()))

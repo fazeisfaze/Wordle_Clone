@@ -1,9 +1,8 @@
-# Assuming you have Board.py and Keyboard.py files
 import Board
 import Keyboard
 import Word
 
-from flet import (Column, KeyboardEvent, SnackBarBehavior,CrossAxisAlignment, OutlinedBorder, RoundedRectangleBorder, SnackBar, Text, Colors, Page, Divider, FontWeight)
+from flet import (Column, ControlEvent, KeyboardEvent, SnackBarBehavior,CrossAxisAlignment, OutlinedBorder, RoundedRectangleBorder, SnackBar, Text, Colors, Page, Divider, FontWeight)
 import flet as ft
 
 class Wordle(Column):
@@ -11,18 +10,17 @@ class Wordle(Column):
         super().__init__(spacing=0)
         self.horizontal_alignment = CrossAxisAlignment.CENTER
         self.board = Board.Board()
-        self.keyboard = Keyboard.Keyboard()
+        self.keyboard = Keyboard.Keyboard(self.on_control_event)
         self.worlde = Word.Word().getRandomizeWord()
 
         self.controls = [
             self.board,
-            Divider(height=130, color="transparent"), # Use transparent divider for spacing
+            Divider(height=130, color="transparent"), 
             self.keyboard,
         ]
 
         self.snack_bar = SnackBar(
             content=Text(
-                
                 weight=FontWeight.W_900,
                 size=20
             ),
@@ -39,17 +37,11 @@ class Wordle(Column):
         self.page.overlay.append(self.snack_bar)
         self.page.on_keyboard_event = self.on_keyboard_event
         self.page.update()
-        
-    # showAlert now just opens the existing snackbar
     def show_alert(self, error: str):
         self.snack_bar.open = True
         self.snack_bar.content.value = error
         self.page.update()
-
-    async def on_keyboard_event(self, e: KeyboardEvent):
-        key = e.key.upper()
-        print(f"Key pressed: {key}") # Helpful for debugging
-
+    async def LogicProcess(self,key: str):
         if key.isalpha() and len(key) == 1:
             await self.board.add(key)
             self.board.update()
@@ -66,8 +58,16 @@ class Wordle(Column):
                 self.board.setAnswerState(listValidateColor)
                 self.keyboard.setAnswerState(listValidateColor)
             else:
-                # If the row is not full, show the alert
                 self.show_alert("You must enter 5-letter word!")
+
+    async def on_control_event(self, e : ControlEvent):
+        key =  e.control.content.value.upper() 
+        if (key == "DEL"): key = "BACKSPACE"
+        await self.LogicProcess((key))
+    
+    async def on_keyboard_event(self, e: KeyboardEvent):
+        key = e.key.upper()
+        await self.LogicProcess(key)
 
 def main(page: Page):
     page.title = "Flet Wordle"
