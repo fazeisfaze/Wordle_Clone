@@ -70,7 +70,7 @@ class Wordle(Column):
         await self.LogicProcess(key)
 
 def main(page: Page):
-    page.title = "Flet Wordle"
+    page.title = "Wordle"
     page.fonts= {
         "Franklin": "https/github.com/google/fonts/raw/main/apache/franklingothic/FranklinGothic-Medium.ttf"
     }
