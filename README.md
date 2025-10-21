@@ -1,7 +1,9 @@
 # Flet Wordle Clone 🟩
 
 A simple, lightweight Wordle clone built entirely in Python with the [Flet](https://flet.dev) framework.
-![Wordle Gameplay](./Videos/Video1.gif)
+<div style="text-align: center;">
+  <img src="./Videos/Video1.gif" width="400" height="350" alt="Wordle Gameplay" />
+</div>
 
 ## ✨ Features
 
