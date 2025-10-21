@@ -1,9 +1,11 @@
 from signal import pause
+
+from flet.core.alignment import center
 import Board
 import Keyboard
 import Word
 
-from flet import (Column, ControlEvent, KeyboardEvent, SnackBarBehavior,CrossAxisAlignment, OutlinedBorder, RoundedRectangleBorder, SnackBar, Text, Colors, Page, Divider, FontWeight)
+from flet import (Alignment, Column, ControlEvent, KeyboardEvent, SnackBarBehavior,CrossAxisAlignment, OutlinedBorder, RoundedRectangleBorder, SnackBar, Text, Colors, Page, Divider, FontWeight, TextAlign, alignment)
 import flet as ft
 from asyncio import sleep
 
@@ -23,7 +25,8 @@ class Wordle(Column):
         self.snack_bar = SnackBar(
             content=Text(
                 weight=FontWeight.W_900,
-                size=20
+                text_align=TextAlign.CENTER,
+                size=25,
             ),
             shape=RoundedRectangleBorder(5),
             bgcolor=Colors.RED_400,
