@@ -91,9 +91,9 @@ def main(page: Page):
     }
     page.theme = ft.Theme(font_family="Franklin")
     page.bgcolor ="#121213"
-    page.window.min_width= 800
-    page.window.min_height = 980
-    page.window.max_height = 1000
+    page.window.min_width= 700
+    page.window.min_height = 780
+    page.window.max_height = 900
     page.window.max_width = 800
     page.window.resizable = True
     page.window.center()

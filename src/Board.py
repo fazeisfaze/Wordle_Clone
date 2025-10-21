@@ -22,19 +22,17 @@ class Board(Container):
         def createAnsBox():
 
              return Stack(
-              width= 100,
-              height= 100,
               controls= [
                     Container(
                         
-                        width= 100,
-                        height=100,
+                        width= 70,
+                        height=70,
                         alignment=alignment.center,
                         border=border.all(3,BORDER_COLOR),
                         content= Text(
                             visible=False,
                             weight=FontWeight.W_700,
-                            size = 40,
+                            size = 30,
                             color=TEXT_COLOR,
                         ),
                         animate_scale= Animation(200, AnimationCurve.EASE_OUT)
@@ -58,7 +56,7 @@ class Board(Container):
                 BOARD_DICT[(i, j)] = stack.controls[0] 
             col.controls.append(row_control)
         self.alignment = alignment.center    
-        self.width = 550
+        self.width = 500
         self.content = col
     async def add(self, data: str):
         if self.curY >= 4:
