@@ -1,6 +1,7 @@
 # Flet Wordle Clone 🟩
 
 A simple, lightweight Wordle clone built entirely in Python with the [Flet](https://flet.dev) framework.
+![](./Videos/Video1.mp4)
 
 ## ✨ Features
 
@@ -27,7 +28,7 @@ Follow these steps to get the game running on your local machine.
 1. **Clone the repository:**
 
     ```sh
-    git clone [https://github.com/fazeisfaze/Wordle_Clone.git](https://github.com/fazeisfaze/Wordle_Clone.git)
+    git clone https://github.com/fazeisfaze/Wordle_Clone.git
     ```
 
 2. **Navigate to the project directory:**
