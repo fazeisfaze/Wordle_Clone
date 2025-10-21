@@ -16,7 +16,7 @@ class Wordle(Column):
         self.wordle = Word.Word().getRandomizeWord()
         self.controls = [
             self.board,
-            Divider(height=130, color="transparent"), 
+            Divider(height=70, color="transparent"), 
             self.keyboard,
         ]
 
@@ -92,7 +92,9 @@ def main(page: Page):
     page.theme = ft.Theme(font_family="Franklin")
     page.bgcolor ="#121213"
     page.window.min_width= 800
-    page.window.min_height = 1000
+    page.window.min_height = 980
+    page.window.max_height = 1000
+    page.window.max_width = 800
     page.window.resizable = True
     page.window.center()
 
