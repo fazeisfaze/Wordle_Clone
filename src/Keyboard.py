@@ -1,7 +1,7 @@
 from flet import (Container, Column, Button, Control, Offset,Row, Card, Duration,AnimationCurve, Text, Colors, Page, Animation, alignment, border, padding)
 import flet as ft
 from typing import cast
-CORRECT_COLOR = "#6AAA64" 
+CORRECT_COLOR = "#538D4E"
 PRESENT_COLOR = "#C9B458"  
 DEFAULT_COLOR = "#787C7E"  
 

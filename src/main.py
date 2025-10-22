@@ -90,7 +90,7 @@ class Wordle(Column):
 def main(page: Page):
     page.title = "Wordle"
     page.fonts= {
-        "Franklin": "https/github.com/google/fonts/raw/main/apache/franklingothic/FranklinGothic-Medium.ttf"
+        "Franklin": "assets/franklin-normal-400.woff2"
     }
     page.theme = ft.Theme(font_family="Franklin")
     page.bgcolor ="#121213"
