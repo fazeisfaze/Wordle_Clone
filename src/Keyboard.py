@@ -1,10 +1,11 @@
 from flet import (Container, Column, Button, Control, Offset,Row, Card, Duration,AnimationCurve, Text, Colors, Page, Animation, alignment, border, padding)
 import flet as ft
 from typing import cast
-CORRECT_COLOR = "#538D4E"
-PRESENT_COLOR = "#C9B458"  
 DEFAULT_COLOR = "#787C7E"  
 
+BG_ABSENT = "#3A3A3C"
+BG_RIGHT = "#538D4E"
+BG_MISPLACE ="#B59F3B"
 KEY_CONTROLS = {}
 
 class Keyboard(Container):
@@ -77,7 +78,7 @@ class Keyboard(Container):
     def setAnswerState(self,lst):
         for (boxColor, char) in lst:
             t = cast(Button,KEY_CONTROLS.get(char.lower()))
-            if t.bgcolor == CORRECT_COLOR :continue
+            if t.bgcolor == BG_RIGHT or (boxColor == BG_ABSENT and t.bgcolor == BG_MISPLACE)    :continue
             t.bgcolor = boxColor
             t.update()
     def reset(self):

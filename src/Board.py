@@ -5,7 +5,6 @@ from flet.core.alignment import center
 from typing import Counter, Dict, Tuple, cast,List
 from asyncio import sleep
 import Word 
-
 TEXT_COLOR = "#F8F8F8"
 BG_ABSENT = "#3A3A3C"
 BG_RIGHT = "#538D4E"
@@ -144,21 +143,21 @@ class Board(Container):
         return (guess_tile, guess_tile_data)
 
     def getValidateColor(self, answer:str):
-
+        cnt = Counter(answer)
         answer_chars: list[str|None] = list(answer)
         (guess_tile, guess_tile_data) = self.getCurrentLine()
-        colors = [""] * 5
+        colors = [BG_ABSENT] * 5
         for i in range(0,5):
             if (guess_tile_data[i] == answer[i]):
+                cnt[answer[i]]-=1
                 colors[i] = BG_RIGHT
                 answer_chars[i] = None
         for i in range(0,5):
             if (colors[i] == BG_RIGHT) :
                 continue
-            if guess_tile_data[i] in answer_chars:
+            if guess_tile_data[i] in answer_chars and cnt[guess_tile_data[i]] > 0:
+                cnt[guess_tile_data[i]]-=1
                 colors[i] = BG_MISPLACE
-            else:
-                colors[i] = BG_ABSENT
         res:list[tuple[str,str]] = []
         for cnt,t in enumerate(guess_tile_data):
             res.append((colors[cnt],t))

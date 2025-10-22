@@ -16,6 +16,8 @@ class Wordle(Column):
         self.board = Board.Board()
         self.keyboard = Keyboard.Keyboard(self.on_control_event)
         self.wordle = Word.Word().getRandomizeWord()
+        # self.wordle ="LOVER"
+        print(self.wordle)
         self.controls = [
             self.board,
             Divider(height=70, color="transparent"), 
@@ -63,17 +65,20 @@ class Wordle(Column):
                 listValidateColor = self.board.getValidateColor(self.wordle)
                 self.board.setAnswerState(listValidateColor)
                 self.keyboard.setAnswerState(listValidateColor)
-                if (self.board.curX>= 6):
-                    self.page.on_keyboard_event = None
-                    if (GuessWord == self.wordle.lower()):
-                        self.show_alert(("Congratulation!"),Colors.GREEN_400)
-                    else:
+                if (GuessWord != self.wordle.lower()):
+                     if (self.board.curX>= 6):
                         self.show_alert("Correct Words: "+self.wordle, Colors.YELLOW_400)
-                    await sleep(1.5)
-                    self.page.on_keyboard_event = self.on_keyboard_event
-                    self.wordle = Word.Word().getRandomizeWord()
-                    self.board.reset()
-                    self.keyboard.reset()
+                     else:
+                        return
+
+                else: 
+                    self.show_alert(("Congratulation!"),Colors.GREEN_400)
+                self.page.on_keyboard_event = None
+                await sleep(1.5)
+                self.page.on_keyboard_event = self.on_keyboard_event
+                self.wordle = Word.Word().getRandomizeWord()
+                self.board.reset()
+                self.keyboard.reset()
 
             else:
                 self.show_alert("You must enter 5-letter word!",Colors.RED_400)
